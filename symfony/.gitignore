@@ -1,10 +1,22 @@
-
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
+# Symfony specific
+.env.local
+.env.*.local
+.env.test
 /var/
 /vendor/
-###< symfony/framework-bundle ###
+/node_modules/
+/public/build/
+/public/bundles/
+
+# PHPUnit
+/phpunit.xml
+/phpunit.xml.dist
+/phpunit.dist.xml
+/bin/phpunit
+
+# IDE and system files
+/.idea/
+/.vscode/
+.DS_Store
+*.log
+.editorconfig

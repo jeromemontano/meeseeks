@@ -8,4 +8,10 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 ENV PATH="$HOME/.symfony5/bin:$PATH"
 
+# Add Node.js & npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm
+
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

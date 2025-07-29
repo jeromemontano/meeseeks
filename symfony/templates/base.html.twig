@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Rick & Morty{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+
+    {# CSS - usually in <head> #}
+    {{ encore_entry_link_tags('app') }}
+
+
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+
+    <div class="container mx-auto p-10">
+        {% block body %}
+        {% endblock %}
+    </div>
+
+
+    {# JS - usually before </body> #}
+    {{ encore_entry_script_tags('app') }}
+</body>
+</html>
