@@ -4,11 +4,14 @@ namespace App\Formatter;
 
 class CharacterResponseFormatter {
 
-    public static function format(array $characters, string $search): array
+    public static function format(array $response, string $search = ""): array
     {
-        return [
-            'name' => $search,
-            'characters' => $characters,
-        ];
+        $formattedData = $response;
+
+        if (!empty($search)) {
+            $formattedData['search'] = $search;
+        }
+
+        return $formattedData;
     }
 }

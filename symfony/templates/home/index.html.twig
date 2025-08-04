@@ -1,9 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div data-controller="hello">
-        <button data-action="click->hello#greet" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-            Click me
-        </button>
+    <div data-controller="meeseeks" class="relative h-screen">
+        {% include './components/meeseeks/_summon_button.html.twig' %}
+
+        <div
+            data-meeseeks-target="requestContainer"
+            class="meeseeks-request hidden fixed inset-0 z-50 flex items-center justify-center"
+        >
+            <div class="w-full" data-controller="request">
+                <div class="w-10/12 lg:w-1/3 mx-auto bg-cyan-900/75 p-10 rounded-xl border-2 border-gray-800">
+                    {% include './components/meeseeks/_form.html.twig' %}
+                    {% include './components/meeseeks/_loader.html.twig' %}
+                    {% include './components/display-elements/_character_list.html.twig' %}
+                    {% include './components/meeseeks/_no_records.html.twig' %}
+                </div>
+
+                <div class="w-10/12 lg:w-1/3 mx-auto">
+                    {% include './components/meeseeks/_fulfilled_button.html.twig' %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

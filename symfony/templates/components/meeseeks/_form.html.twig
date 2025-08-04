@@ -1,0 +1,97 @@
+<form
+    data-action="submit->request#submit"
+    data-request-target="formContainer"
+    data-meeseeks-target="formContainer"
+    data-controller="autocomplete"
+>
+
+    {% include './components/form-elements/_select.html.twig' with {
+        id: 'meeseeks-task',
+        label: 'Whats your request?',
+        dataAttributes: {
+            'action': 'change->request#onTaskChange',
+            'request-target': 'taskSelect',
+            'meeseeks-target': 'taskSelect'
+        },
+        placeholder: 'Select a task',
+        options: [
+            { value: 'characters-filter', label: 'Get all characters (with filters)' },
+            { value: 'character-details', label: 'Get full character details' }
+        ]
+    } %}
+
+    <div data-request-target="filterWrapper" class="hidden mt-5">
+        <div data-request-target="filterSelectContainer">
+            {% include './components/form-elements/_select.html.twig' with {
+                id: 'filter-type',
+                label: 'Choose filter type?',
+                dataAttributes: {
+                    'action': 'change->request#onCategoryChange',
+                    'request-target': 'filterSelect'
+                },
+                placeholder: 'Select a filter',
+                options: [
+                    { value: 'dimension', label: 'Dimension' },
+                    { value: 'location', label: 'Location' },
+                    { value: 'episode', label: 'Episode' },
+                ]
+            } %}
+        </div>
+
+        <div data-request-target="filterInputContainer" class="hidden autocomplete-wrapper">
+            {% include './components/form-elements/_input.html.twig' with {
+                entity: '',
+                dataAttributes: {
+                    'action': 'input->autocomplete#onSearchInput',
+                    'autocomplete-target': 'searchInput',
+                    'request-target': 'filterInput',
+                }
+            } %}
+        </div>
+
+        <div data-request-target="seasonContainer" class="hidden mt-5">
+            {% include './components/form-elements/_select.html.twig' with {
+                id: 'season-select',
+                label: 'Select Season',
+                dataAttributes: {
+                    'action': 'change->request#onSeasonChange',
+                    'request-target': 'seasonSelect'
+                },
+                placeholder: '',
+                options: []
+            } %}
+
+        </div>
+
+        <div data-request-target="episodeContainer" class="hidden mt-5">
+            {% include './components/form-elements/_select.html.twig' with {
+                id: 'episode-select',
+                label: 'Select Episode',
+                dataAttributes: {
+                    'request-target': 'episodeSelect'
+                },
+                placeholder: '',
+                options: []
+            } %}
+        </div>
+    </div>
+
+    <div data-request-target="characterSearchWrapper" class="hidden autocomplete-wrapper">
+        {% include './components/form-elements/_input.html.twig' with {
+            entity: 'character',
+            dataAttributes: {
+                'action': 'input->autocomplete#onSearchInput',
+                'autocomplete-target': 'searchInput',
+                'request-target': 'searchInput',
+            }
+        } %}
+    </div>
+
+    <button type="submit"
+            class="hidden default-button"
+            data-request-target="submitButton"
+            data-autocomplete-target="submitButton"
+    >
+        Submit Request
+    </button>
+</form>

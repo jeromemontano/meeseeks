@@ -1,0 +1,26 @@
+{#<div data-profile-target="characterProfile" class="fixed inset-0 bg-cyan-950 hidden bg-opacity-10 flex items-center justify-center z-50">#}
+{#    <div class="relative w-full max-w-xl bg-white/10 backdrop-blur-md border border-cyan-400 rounded-2xl p-6 text-white shadow-xl">#}
+{#        <button data-action="click->profile#closeDetail" class="absolute top-3 right-3 text-xl font-bold">&times;</button>#}
+{#        <div data-profile-target="detailContent">#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+{#                    <div class="mt-3">#}
+                    {#                        <span class="font-semibold">Episodes:</span>#}
+                    {#                        <div data-detail="episodes" class="flex flex-wrap gap-2 mt-1"></div>#}
+                    {#                    </div>#}
+
+<div data-profile-target="characterProfile" class="profile-backdrop hidden flex">
+    <div class="profile-modal" data-profile-target="profileModal">
+        <button data-action="click->profile#closeDetail" class="modal-close">&times;</button>
+        <div data-profile-target="detailContent">
+            <div class="profile-details">
+                <div class="profile-image-container" data-profile-target="profileImage">
+                </div>
+                <div class="profile-detail-list" data-profile-target="profileDetailList">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

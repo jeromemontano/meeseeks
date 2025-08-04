@@ -1,0 +1,15 @@
+<div class="input-group mt-5">
+    <label for="{{ entity }}-input" class="form-label">Type a value:</label>
+    <input type="text"
+           id="{{ entity }}-input"
+           class="form-input"
+           placeholder="Type something..."
+            {% for attr, val in dataAttributes|default({}) %}
+                data-{{ attr }}="{{ val }}"
+            {% endfor %}
+           data-entity="{{ entity }}"
+           autocomplete="off"
+    />
+
+    {% include './components/utilities/_autocomplete_list.html.twig' %}
+</div>

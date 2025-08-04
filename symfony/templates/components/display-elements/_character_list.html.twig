@@ -1,0 +1,12 @@
+<div data-meeseeks-target="resultsContainer" data-request-target="resultsContainer" class="hidden">
+    <div data-controller="profile">
+        <div data-request-target="characterList" class="space-y-5">
+        </div>
+
+        <div>
+            {% include './components/display-elements/_character_profile.html.twig' %}
+        </div>
+    </div>
+
+    {% include './components/utilities/_pagination.html.twig' %}
+</div>

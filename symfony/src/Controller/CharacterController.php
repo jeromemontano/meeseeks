@@ -5,13 +5,11 @@ namespace App\Controller;
 use App\Enum\PortalEntity;
 use App\Formatter\CharacterResponseFormatter;
 use App\Request\CharacterFilterRequest;
-use App\Request\CharacterSearchRequest;
 use App\Service\CharacterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CharacterController extends AbstractController
 {
@@ -24,58 +22,68 @@ class CharacterController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    #[Route('/characters', name: 'get_characters', methods: ['GET'])]
-    public function index(Request $request): JsonResponse
+    #[Route('/character', name: 'get_characters', methods: ['GET'])]
+    public function getCharacters(Request $request): JsonResponse
     {
-        $filter = CharacterFilterRequest::fromRequest($request->query->all());
-
-        if (!$filter->hasAtLeastOneFilter()) {
-            return $this->json(['error' => 'At least one filter must be provided.'], 400);
+        $query = $request->query->all();
+        if (!$query) {
+            return $this->json([]);
         }
 
-        $result = [];
+        $filter = CharacterFilterRequest::fromRequest($query);
+        $page = (int) $request->query->get('page', 1);
 
-        if ($filter->dimensionName) {
-            $characters = $this->characterService->getCharactersByLocationCriteria(['dimension' => $filter->dimensionName]);
-            $result[PortalEntity::DIMENSION->value] = CharacterResponseFormatter::format($characters, $filter->dimensionName);
-        }
+        $criteria = [];
+        $entity = null;
+        $filterQuery = '';
 
         if ($filter->locationName) {
-            $characters = $this->characterService->getCharactersByLocationCriteria(['name' => $filter->locationName]);
-            $result[PortalEntity::LOCATION->value] = CharacterResponseFormatter::format($characters, $filter->locationName);
-        }
-
-        if ($filter->season) {
+            $criteria = ['name' => $filter->locationName];
+            $entity = PortalEntity::LOCATION->value;
+            $filterQuery = $filter->locationName;
+        } elseif ($filter->dimensionName) {
+            $criteria = ['dimension' => $filter->dimensionName];
+            $entity = PortalEntity::DIMENSION->value;
+            $filterQuery = $filter->dimensionName;
+        } elseif ($filter->characterName) {
+            $criteria = ['name' => $filter->characterName];
+            $entity = PortalEntity::CHARACTER->value;
+            $filterQuery = $filter->characterName;
+        } elseif ($filter->season) {
             $episodeCode = $filter->season;
             if ($filter->episode) {
-                $episodeCode = $filter->season.$filter->episode;
+                $episodeCode .= $filter->episode;
             }
 
-            $characters = $this->characterService->getCharactersInEpisode(['episode' => $episodeCode]);
-            $result[PortalEntity::EPISODE->value] = CharacterResponseFormatter::format($characters, $episodeCode);
+            $criteria = ['episode' => $episodeCode];
+            $entity = PortalEntity::EPISODE->value;
+            $filterQuery = $episodeCode;
         }
+
+        if (!$entity) {
+            return $this->json([]);
+        }
+
+        $response = $this->characterService->getCharactersByCriteria(
+            $criteria,
+            $entity,
+            $page
+        );
+
+        $result = CharacterResponseFormatter::format($response, $filterQuery);
 
         return $this->json($result);
     }
 
-    /**
-     * @param Request $request
-     * @param ValidatorInterface $validator
-     * @return JsonResponse
-     */
-    #[Route('/characters/search', name: 'search_characters_by_name', methods: ['GET'])]
-    public function search(Request $request, ValidatorInterface $validator): JsonResponse
+    #[Route('/character/autocomplete', name: 'get_character_suggestions', methods: ['GET'])]
+    public function autocomplete(Request $request): JsonResponse
     {
-        $data = new CharacterSearchRequest();
-        $data->name = $request->query->get('name');
-
-        $errors = $validator->validate($data);
-        if (count($errors) > 0) {
-            return $this->json(['error' => (string) $errors], 400);
+        $query = $request->query->get('query');
+        $result = [];
+        if ($query) {
+            $result = $this->characterService->getCharacterSuggestions($query);
         }
 
-        $characters = $this->characterService->getCharactersByName($data->name);
-        $result[PortalEntity::CHARACTER->value] = CharacterResponseFormatter::format($characters, $data->name);
         return $this->json($result);
     }
 }

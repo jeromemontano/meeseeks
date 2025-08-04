@@ -1,0 +1,28 @@
+<div class="items-center justify-between  hidden transition" data-request-target="paginationContainer">
+    <div class="text-sm text-white mt-5 text-center" data-request-target="paginationInfo"></div>
+    <div class="flex gap-2" data-request-target="paginationButtonContainer">
+        <button
+            type="button"
+            data-direction="prev"
+            data-action="click->request#loadPage"
+            data-request-target="prevButton"
+            class="default-button"
+            aria-label="Previous"
+            disabled
+        >
+            ← Previous
+        </button>
+
+        <button
+            type="button"
+            data-direction="next"
+            data-action="click->request#loadPage"
+            data-request-target="nextButton"
+            class="default-button"
+            aria-label="Next"
+            disabled
+        >
+            Next →
+        </button>
+    </div>
+</div>

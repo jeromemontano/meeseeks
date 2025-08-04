@@ -1,0 +1,29 @@
+@layer meeseeks {
+    .glow-pulse {
+        box-shadow: 0 0 0 rgba(34,211,238, 0.7);
+        animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 0 0 rgba(34,211,238, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 20px rgba(34,211,238, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(34,211,238, 0);
+        }
+    }
+
+    .box-button {
+        @apply lg:size-32 sm:size-64 rounded-full bg-cyan-500 hover:bg-cyan-600 active:scale-95 transition duration-200 shadow-lg border-4 border-cyan-200 focus:outline-none cursor-pointer
+    }
+
+    .meeseeks-request {
+        background-image: url('../images/Meeseeks.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}

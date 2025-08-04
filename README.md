@@ -25,48 +25,24 @@ After containers are up, run:
 docker compose exec php composer install
 ```
 
+### Install NPM dependencies
+
+Run the following inside the PHP container:
+
+```bash
+docker compose exec exec php npm install
+```
+
+### Build frontend assets
+
+Run the following inside the PHP container:
+
+```bash
+docker compose exec exec npm run dev
+```
+
 ### Open in browser
 
 Visit: [http://localhost](http://localhost)
 
-If you see the Symfony welcome page, you're good to go!
-
----
-
-## 🧾 Project Structure
-
-```
-.
-├── docker/                 # Docker configs
-│   ├── nginx/
-│   │   └── default.conf
-│   └── php/
-│       └── Dockerfile
-├── public/                 # Web root
-├── src/                    # Symfony code (Controller, Entity, etc.)
-├── config/                 # Symfony config files
-├── var/                    # Logs, cache, etc.
-├── vendor/                 # Composer dependencies (ignored by git)
-├── .env                    # Main environment file
-├── composer.json
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-## 🧪 Running Tests
-
-Make sure PHPUnit is installed:
-
-```bash
-docker compose exec php ./vendor/bin/phpunit
-```
-
-Or to generate the config:
-
-```bash
-docker compose exec php php bin/phpunit
-```
-
----
+If you see the Button, you're good to go!

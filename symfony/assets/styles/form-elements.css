@@ -1,0 +1,18 @@
+@layer form-elements {
+
+    .form-label {
+        @apply block text-white space-y-4 font-extrabold sm:text-3xl lg:text-base mb-2 not-first:mt-5
+    }
+
+    .form-input {
+        @apply sm:text-3xl lg:text-base w-full px-5 py-4 rounded-xl border border-cyan-300 bg-white/90 focus:outline-none focus:border-cyan-500 text-black
+    }
+
+    .autocomplete-wrapper {
+        @apply relative w-full
+    }
+
+    .default-button {
+        @apply w-full rounded-lg bg-cyan-500 px-4 py-2 mt-5 text-white font-medium hover:bg-cyan-600 transition focus:outline-none focus:ring-2 focus:ring-cyan-300
+    }
+}

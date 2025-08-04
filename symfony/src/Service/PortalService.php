@@ -21,24 +21,13 @@ class PortalService
         return $this->fetchRecordsInApi($url);
     }
 
-    public function getAllRecords(string $entityType, array $query = []): array
+    public function getPaginatedRecords(string $entityType, array $query = []): array
     {
-        $results = [];
-        $page = 1;
-
         $url = "{$this->baseUrl}/{$entityType}";
-
-        do {
-            $queryWithPage = array_merge($query, ['page' => $page]);
-            $response = $this->fetchRecordsInApi($url, $queryWithPage);
-            $results = array_merge($results, $response['results'] ?? []);
-            $page++;
-        } while (!empty($response['info']['next']));
-
-        return $results;
+        return $this->fetchRecordsInApi($url, $query);
     }
 
-    private function fetchRecordsInApi(string $url, array $query = []): array
+    public function fetchRecordsInApi(string $url, array $query = []): array
     {
         try {
             $response = $this->httpClient->request('GET', $url, [
@@ -46,10 +35,8 @@ class PortalService
             ]);
             return $response->toArray();
         } catch (ClientExceptionInterface) {
-            // 4xx errors (including 404)
             return [];
         } catch (TransportExceptionInterface) {
-            // Network or transport-level issues
             return [];
         }
     }
